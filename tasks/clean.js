@@ -10,12 +10,22 @@ var gutil = require('gulp-util');
 var rimraf = require('gulp-rimraf');
 var sequence = require('gulp-sequence');
 
+var baseConfig = require('./config/base.config');
 var pathUtil = require('./utils/path-util');
 
-gulp.task('clean', sequence(['clean:build']));
+gulp.task('clean', sequence(
+    ['clean:build'],
+    ['clean:dist']
+));
 
-// sub tasks for clean
+// sub tasks
+
 gulp.task('clean:build', function() {
   gutil.log('deleting build folder:public');
-  return gulp.src(pathUtil.resolve('public')).pipe(rimraf());
+  return gulp.src(baseConfig.dir.build).pipe(rimraf());
+});
+
+gulp.task('clean:dist', function() {
+  gutil.log('deleting build folder:public');
+  return gulp.src(baseConfig.dir.dist).pipe(rimraf());
 });
